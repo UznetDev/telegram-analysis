@@ -10,6 +10,9 @@ from telethon.tl.types import (
     PeerChannel
 )
 
+## Variables
+channel_name = "sariqdev"
+channel_url = "t.me/sariqdev"
 
 # some functions to parse json date
 class DateTimeEncoder(json.JSONEncoder):
@@ -52,7 +55,8 @@ async def main(phone):
 
     me = await client.get_me()
 
-    user_input_channel = input('enter entity(telegram URL or entity id):')
+    #user_input_channel = input('enter entity(telegram URL or entity id):')
+    user_input_channel = channel_url
 
     if user_input_channel.isdigit():
         entity = PeerChannel(int(user_input_channel))
@@ -67,7 +71,8 @@ async def main(phone):
     total_messages = 0
     total_count_limit = 0
 
-    while True:
+    flag = True
+    while flag:
         print("Current Offset ID is:", offset_id, "; Total Messages:", total_messages)
         history = await client(GetHistoryRequest(
             peer=my_channel,
@@ -82,14 +87,22 @@ async def main(phone):
         if not history.messages:
             break
         messages = history.messages
+        # for message in messages:
+        #     all_messages.append(message.to_dict())
         for message in messages:
-            all_messages.append(message.to_dict())
+            if message.date.year != 2020:
+                print(message.date.year)
+                flag = False
+                break
+            all_messages.append({"id":message.id, "date":message.date,"message":message.message,
+                                 "views":message.views, "forwards":message.forwards})
         offset_id = messages[len(messages) - 1].id
         total_messages = len(all_messages)
         if total_count_limit != 0 and total_messages >= total_count_limit:
             break
 
-    with open('channel_messages.json', 'w') as outfile:
+    filename = f"data/{channel_name}.json"
+    with open(filename, 'w') as outfile:
         json.dump(all_messages, outfile, cls=DateTimeEncoder)
 
 with client:

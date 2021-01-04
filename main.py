@@ -19,7 +19,8 @@ tg_channels = {"xushnudbek":"t.me/xushnudbek",
 
 json_data = {}
 domlajon = {"domlajon":"t.me/domlajon"}
-for key, value in domlajon.items():
+sariqdev = {"sariqdev":"t.me/sariqdev"}
+for key, value in sariqdev.items():
     json_data[key] = get_tg_messages(key,value,year=2020)
 
 print(json_data)

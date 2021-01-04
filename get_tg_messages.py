@@ -86,7 +86,9 @@ def get_tg_messages(channel_name, channel_url, year=2020):
             # for message in messages:
             #     all_messages.append(message.to_dict())
             for message in messages:
-                if message.date.year != year:
+                if message.date.year > year:
+                    continue
+                elif message.date.year != year:
                     print(message.date.year)
                     flag = False
                     break

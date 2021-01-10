@@ -15,7 +15,7 @@ sufx = ["лар","нинг","гача","ган","ларда","моқда",'ре�
 uzbekistan = ["узбекистан","ўзбекистон"]
 tashkent = ["ташкент"]
 
-filename = r'data/domlajon_2020.json'
+filename = r'data/boredpanda_2020.json'
 maskname = r'masks/box.png'
 df = pd.read_json(filename)
 
@@ -65,6 +65,8 @@ def remove_sufx(text,sufx):
             word = "люди"
         if word.startswith("машин"):
             word = "машина"
+        if word.startswith("odam"):
+            word = "odam"
         if word.startswith("uzam") or word.startswith("uzauto") or word.startswith("узавто"):
             word = "UzAM"
 
